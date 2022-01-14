@@ -1,8 +1,7 @@
 import express from "express";
 import { graphqlHTTP } from "express-graphql";
 
-import { Schema } from "./schema";
-import { resolvers } from "./resolvers";
+import { schema } from "./data/schema";
 
 const app = express();
 
@@ -13,10 +12,7 @@ app.get("/", (req, res) => {
   res.send(`GraphQL started on <a href="${graphQlLink}">${graphQlLink}</a>`);
 });
 
-app.use(
-  "/graphql",
-  graphqlHTTP({ schema: Schema, rootValue: resolvers, graphiql: true })
-);
+app.use("/graphql", graphqlHTTP({ schema, graphiql: true }));
 
 app.listen(PORT, () =>
   console.log(`Server started. GraphQL started on ${graphQlLink}`)
