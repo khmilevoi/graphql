@@ -40,3 +40,5 @@ export const Alien = sequelizeConnection.define("aliens", {
   lastName: { type: sequelize.STRING },
   planet: { type: sequelize.STRING },
 });
+
+sequelizeConnection.sync();

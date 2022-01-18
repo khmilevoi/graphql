@@ -1,10 +1,14 @@
 import { Alien, Friend } from "./dbConnectors";
 
 export const resolvers = {
-  Query: {},
+  Query: {
+    getAlien: (root, { id }) => {
+      return Alien.findOne({ where: { id: id } });
+    },
+  },
   Mutation: {
     createAlien: (root, { input }) => {
-      return new Alien({ ...input }).save();
+      return Alien.create({ ...input, id: Date.now() });
     },
     createFriend: (root, { input }) => {
       const friend = new Friend(input);
@@ -20,6 +24,33 @@ export const resolvers = {
           }
         })
       );
+    },
+    updateFriend: (root, { input }) => {
+      return new Promise((resolve, reject) => {
+        Friend.findOneAndUpdate(
+          { _id: input.id },
+          input,
+          { new: true },
+          (err, doc) => {
+            if (err) {
+              reject(err);
+            } else {
+              resolve(doc);
+            }
+          }
+        );
+      });
+    },
+    deleteFriend: (root, { id }) => {
+      return new Promise((resolve, reject) => {
+        Friend.findByIdAndDelete(id, {}, (err, doc) => {
+          if (err) {
+            reject(err);
+          } else {
+            resolve(doc);
+          }
+        });
+      });
     },
   },
 };
