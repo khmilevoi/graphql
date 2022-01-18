@@ -1,5 +1,7 @@
 import mongoose from "mongoose";
 import sequelize from "sequelize";
+import _ from "lodash";
+import casual from "casual";
 
 mongoose.Promise = Promise;
 mongoose.connect("mongodb://localhost/friends", {
@@ -41,4 +43,12 @@ export const Alien = sequelizeConnection.define("aliens", {
   planet: { type: sequelize.STRING },
 });
 
-sequelizeConnection.sync();
+sequelizeConnection.sync({ force: true }).then(() => {
+  _.times(10, () =>
+    Alien.create({
+      firstName: casual.first_name,
+      lastName: casual.last_name,
+      planet: casual.word,
+    })
+  );
+});

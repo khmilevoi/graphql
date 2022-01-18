@@ -5,6 +5,9 @@ export const resolvers = {
     getAlien: (root, { id }) => {
       return Alien.findOne({ where: { id: id } });
     },
+    getAliens: () => {
+      return Alien.findAll();
+    },
   },
   Mutation: {
     createAlien: (root, { input }) => {

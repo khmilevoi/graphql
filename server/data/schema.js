@@ -5,6 +5,7 @@ export const typeDefs = `
     type Query {
         getFriend(id: ID): Friend
         getAlien(id: ID): Alien
+        getAliens: [Alien]
     }
     
     type Mutation {
